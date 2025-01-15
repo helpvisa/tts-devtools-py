@@ -16,6 +16,16 @@ within the terminal.
 You can run any one of the scripts with the -h flag to get a quick rundown of
 how they might be used.
 
+```dev_server.py``` spins up a listen server which waits for messages from TTS
+on port 39998. A folder must be specified to which the listen server can dump
+scripts it receives from TTS upon loading a save; if you want TTS to actually
+open newly-created scripts for objects in the text editor of your choice, you
+must specify a command that the server can run with the ```-e``` flag, for
+example:
+```
+./dev_server.py /path/to/scripts/folder -e "vim"
+```
+
 ```send_message.py``` interacts with the onExternalMessage() event in TTS. It
 allows you to send a table of key=value pairs which can be used by scripted
 objects in-game.
