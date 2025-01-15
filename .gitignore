@@ -1,2 +1,6 @@
+test_scripts/
 *.swp
+*.json
+*.lua
+*.xml
 tags

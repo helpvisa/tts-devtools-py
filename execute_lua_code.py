@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+"""
+Sends arbitrary code to the running TableTop Sim instance,
+to be executed globally or on a given object
+"""
 
 import socket
 import json
@@ -28,7 +32,6 @@ try:
     tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     tcp_socket.connect((HOST, PORT))
     tcp_socket.sendall(bytes(data, encoding="utf-8"))
+    tcp_socket.close()
 except socket.error as err:
     print("Socket creation failed with error ", err)
-finally :
-    tcp_socket.close()

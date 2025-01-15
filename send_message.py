@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+"""
+Sends a custom message to the running TableTop Sim instance,
+in the format of a table containing key=value pairs
+"""
 
 import socket
 import json
@@ -35,7 +39,6 @@ try:
     tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     tcp_socket.connect((HOST, PORT))
     tcp_socket.sendall(bytes(data, encoding="utf-8"))
+    tcp_socket.close()
 except socket.error as err:
     print("Socket creation failed with error ", err)
-finally :
-    tcp_socket.close()
