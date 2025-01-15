@@ -22,7 +22,14 @@ objects in-game.
 
 ```execute_lua_code.py``` allows you to execute lua code on any object in the
 loaded game. Use a GUID of ```-1``` instead of an object GUID in order to
-execute code in a Global scope.
+execute code in a Global scope. This is useful for templating functions and
+trying them out on various in-game objects. For example, you could write some
+code into a test_code.lua file and run the command like so (assuming a
+POSIX-compliant terminal is at hand):
+
+```
+./execute_lua_code.py "67362e" "$(cat ./test_code.lua)"
+```
 
 ```save_and_play.py``` uses a spec.json file (it can be named anything you want)
 to send a set of scripts and xml files to the currently loaded game, triggering
