@@ -20,9 +20,9 @@ how they might be used.
 allows you to send a table of key=value pairs which can be used by scripted
 objects in-game.
 
-```execute_lua_code.py``` allows you to execute arbitrary code on any object in
-the loaded game. Use a code of ```-1``` instead of specifiying a GUID in order
-to execute code in a Global scope.
+```execute_lua_code.py``` allows you to execute lua code on any object in the
+loaded game. Use a GUID of ```-1``` instead of an object GUID in order to
+execute code in a Global scope.
 
 ```save_and_play.py``` uses a spec.json file (it can be named anything you want)
 to send a set of scripts and xml files to the currently loaded game, triggering
