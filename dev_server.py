@@ -5,6 +5,7 @@ responds to them accordingly, pulling down scripts into a directory of the
 user's choice or displaying console messages.
 """
 
+import os
 import sys
 import atexit
 import socket
@@ -84,7 +85,19 @@ def service_connection(sel_key, sel_mask):
                     for entry in parsed_data["scriptStates"]:
                         print("Created script for ->", entry["name"],
                               "(guid:)", entry["guid"])
-                        print("Script:\n", entry["script"])
+                        if None is not args.editor:
+                            # process a new filename
+                            script_name = entry["name"]
+                            script_name = script_name.replace(" ", "_")
+                            script_name = script_name.lower() + ".lua"
+                            abs_path = os.path.abspath(args.folder)
+                            final_path = os.path.join(abs_path, script_name)
+                            print("\tSaving new script to:", final_path)
+                            with open(final_path, mode="w",
+                                      encoding="utf-8") as new_file:
+                                new_file.write(entry["script"])
+                            editor_cmd = args.editor + " " + final_path
+                            os.system(editor_cmd)
                 case 1:
                     print("New object and script data received:")
                     iterator = 0

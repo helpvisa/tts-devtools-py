@@ -23,7 +23,7 @@ open newly-created scripts for objects in the text editor of your choice, you
 must specify a command that the server can run with the ```-e``` flag, for
 example:
 ```
-./dev_server.py /path/to/scripts/folder -e "vim"
+./dev_server.py /path/to/scripts/folder -e "xterm -e 'vim'"
 ```
 
 ```send_message.py``` interacts with the onExternalMessage() event in TTS. It
