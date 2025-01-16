@@ -1,5 +1,6 @@
 test_scripts/
 *.swp
+*.swo
 *.json
 *.lua
 *.xml

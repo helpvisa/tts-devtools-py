@@ -6,6 +6,7 @@ user's choice or displaying console messages.
 """
 
 import os
+import subprocess
 import sys
 import atexit
 import socket
@@ -27,6 +28,62 @@ HOST = "localhost"
 PORT = 39998
 
 selector = selectors.DefaultSelector()
+
+
+def save_received_files(files, folder):
+    """
+    save a table of files/scripts/xml to the specified folder
+    """
+    for entry in files:
+        if "script" in entry:
+            script = entry["name"]
+            script = script.replace(" ", "_").lower() + ".lua"
+            abs_path = os.path.abspath(folder)
+            final_path = os.path.join(abs_path, script)
+            print("\tWriting script to:", final_path)
+            try:
+                with open(final_path, mode="w", encoding="utf-8") as new_file:
+                    new_file.write(entry["script"])
+            except OSError as err:
+                print("Error saving / opening: ", err,
+                      "| with file", script, "at", folder)
+
+        if "ui" in entry:
+            xml = entry["name"]
+            xml = xml.replace(" ", "_").lower() + ".xml"
+            abs_path = os.path.abspath(folder)
+            final_path = os.path.join(abs_path, xml)
+            print("\tWriting script to:", final_path)
+            try:
+                with open(final_path, mode="w", encoding="utf-8") as new_file:
+                    new_file.write(entry["ui"])
+            except OSError as err:
+                print("Error saving / opening: ", err,
+                      "| with file", xml, "at", folder)
+
+
+def save_and_open_received_file(file, folder, script, editor_cmd):
+    """
+    save the given script with name "file" to the specified folder and open it
+    in an editor using the provided editor_cmd
+    """
+    # process a new filename
+    file = file.replace(" ", "_").lower() + ".lua"
+    abs_path = os.path.abspath(folder)
+    final_path = os.path.join(abs_path, file)
+    print("\tSaving new script to:", final_path)
+    try:
+        with open(final_path, mode="w", encoding="utf-8") as new_file:
+            new_file.write(script)
+        # build an array of commands to use w Popen
+        if None is not editor_cmd:
+            command_array = editor_cmd.split(" ")
+            command_array.append(final_path)
+            # call the editor w/ the file
+            subprocess.Popen(command_array, close_fds=True)
+    except OSError as err:
+        print("Error saving / opening: ", err,
+              "| with file", file, "at", folder)
 
 
 def terminate_socket():
@@ -85,19 +142,12 @@ def service_connection(sel_key, sel_mask):
                     for entry in parsed_data["scriptStates"]:
                         print("Created script for ->", entry["name"],
                               "(guid:)", entry["guid"])
-                        if None is not args.editor:
-                            # process a new filename
-                            script_name = entry["name"]
-                            script_name = script_name.replace(" ", "_")
-                            script_name = script_name.lower() + ".lua"
-                            abs_path = os.path.abspath(args.folder)
-                            final_path = os.path.join(abs_path, script_name)
-                            print("\tSaving new script to:", final_path)
-                            with open(final_path, mode="w",
-                                      encoding="utf-8") as new_file:
-                                new_file.write(entry["script"])
-                            editor_cmd = args.editor + " " + final_path
-                            os.system(editor_cmd)
+                        save_and_open_received_file(
+                            entry["name"],
+                            args.folder,
+                            entry["script"],
+                            args.editor
+                        )
                 case 1:
                     print("New object and script data received:")
                     iterator = 0
@@ -106,6 +156,11 @@ def service_connection(sel_key, sel_mask):
                         print("\t", entry["guid"])
                         print("-----------------")
                         iterator += 1
+                    print("Writing received scripts to project folder.")
+                    save_received_files(
+                        parsed_data["scriptStates"],
+                        args.folder
+                    )
                 case 2:
                     print(parsed_data["message"])
                 case 3:

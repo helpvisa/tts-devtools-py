@@ -42,6 +42,8 @@ try:
     tcp_socket.connect((HOST, PORT))
     tcp_socket.sendall(bytes(data, encoding="utf-8"))
     tcp_socket.shutdown(socket.SHUT_RDWR)
-    tcp_socket.close()
 except socket.error as err:
     print("Socket error ", err)
+finally:
+    if tcp_socket:
+        tcp_socket.close()
