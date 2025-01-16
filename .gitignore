@@ -1,7 +1,9 @@
 # folders and virtual environments
 test_scripts/
 __pycache__/
-gui_env/
+windows_env/
+build/
+dist/
 
 # temp files, swap files, test files, ctags, linter settings... the works
 *.swp
@@ -11,3 +13,4 @@ gui_env/
 *.xml
 tags*
 .pylintrc
+*.spec
