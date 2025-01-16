@@ -1,8 +1,13 @@
+# folders and virtual environments
 test_scripts/
+__pycache__/
+gui_env/
+
+# temp files, swap files, test files, ctags, linter settings... the works
 *.swp
 *.swo
 *.json
 *.lua
 *.xml
-tags
+tags*
 .pylintrc
