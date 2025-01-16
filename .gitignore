@@ -2,8 +2,9 @@
 test_scripts/
 __pycache__/
 windows_env/
+linux_env/
 build/
-dist/
+release/
 
 # temp files, swap files, test files, ctags, linter settings... the works
 *.swp
