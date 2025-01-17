@@ -2,7 +2,8 @@ WORKPATH =
 DISTPATH =
 BINARY_NAME = tts_devserver_gui
 PYINSTALLER_FLAGS = -F
-TARGET = src/__init__.py
+TARGET_FOLDER = src
+TARGET = __init__.py
 
 
 ifdef WINDOWS
@@ -16,8 +17,15 @@ endif
 
 
 all:
-	pyinstaller -F \
+	mkdir -p $(WORKPATH)
+	mkdir -p $(DISTPATH)
+	pyinstaller $(PYINSTALLER_FLAGS) \
+		-p $(TARGET_FOLDER) \
 		-n $(BINARY_NAME) \
 		--workpath=$(WORKPATH) \
 		--distpath=$(DISTPATH) \
-		$(TARGET)
+		$(TARGET_FOLDER)/$(TARGET)
+
+clean:
+	rm -rf ./$(WORKPATH)
+	rm -rf ./$(DISTPATH)
