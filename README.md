@@ -1,4 +1,4 @@
-# TableTop Simulator Dev Server
+# Tabletop Simulator Dev Server
 ## A set of tools to aid development in TTS
 
 The Atom plugin for TTS is naturally rather defunct at this juncture, and given
@@ -12,7 +12,24 @@ requests made by TTS in order to synchronize scripts (this aspect is still in
 the TODO stages). They are completely IDE agnostic and can be used from
 within the terminal.
 
+Additionally included (and strongly recommended) is ```__init__.py```, which
+constitutes a GUI interface for all of the features exposed by the individual
+scripts in this repository. Windows and Linux binaries for this GUI can be
+found in the release tags.
+
+![A preview image of the GUI application in use](./preview.png)
+
 ## How to use
+If you intend to use the GUI, then it's as simple as running the binary and
+starting a game in Tabletop Simulator! If you'd like to know more about what the
+buttons do, read below into the scripts category.
+
+One note of advice: if you've added any new objects into the scene since your
+last save, make sure you *create a new save or overwrite your current save in
+Tabletop Simulator first before pressing ```Save and Play```*. New objects
+with scripts are not automatically persisted when the save is reloaded!
+
+## Scripts
 You can run any one of the scripts with the -h flag to get a quick rundown of
 how they might be used.
 
@@ -61,9 +78,11 @@ work correctly, you must create a JSON file that follows a format like:
     }
 ]
 ```
-Once this is setup, ```save_and_play.py``` can be pointed at it and it will act
-upon your definitions. The ```script``` and ```ui``` keys can optionally be
-omitted, however at least one of the two is required for each object.
+If you're using the GUI, then this JSON file will be automatically generated for
+you every time you press "Save and Play". Once this file is setup,
+```save_and_play.py``` can be pointed at it and it will act upon your
+definitions. The ```script``` and ```ui``` keys can optionally be omitted,
+however at least one of the two is required for each object.
 
 ### send_message.py
 ```send_message.py``` interacts with the onExternalMessage() event in TTS. It

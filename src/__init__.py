@@ -14,8 +14,9 @@ import threading
 from PySide6.QtWidgets import QApplication, QMainWindow
 from ui_gui_mainwindow import Ui_MainWindow
 # custom
-import modules.listen as Listen
-import modules.send as Send
+import tcp_actions.listen as Listen
+import tcp_actions.send as Send
+from generate_specfile import generate_specfile_from_folder
 
 
 HOST = "localhost"
@@ -34,7 +35,7 @@ global_vars = {
 
 class MainWindow(QMainWindow):
     def __init__(self):
-        super(MainWindow, self).__init__()
+        super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
@@ -56,6 +57,13 @@ def update_editor_cmd():
 def update_specfile_path():
     specfile_entry = global_vars["main_window"].ui.spec_file_entry
     global_vars["specfile"] = specfile_entry.toPlainText()
+    # update the script folder, just incase
+    update_current_script_folder()
+    # generate a new specfile
+    generate_specfile_from_folder(
+        global_vars["folder"],
+        global_vars["specfile"]
+    )
 
 
 def save_and_play():
@@ -109,6 +117,7 @@ def receive_loop():
                 )
                 if global_vars["main_window"] and len(toprint) > 0:
                     new_console_output = ""
+                    # new_console_output = "<font color='#00FF00'>"
                     for entry in toprint:
                         new_console_output += str(entry)
                     console = global_vars["main_window"].ui.console_output
@@ -135,8 +144,11 @@ if __name__ == "__main__":
         tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         tcp_socket.bind((HOST, LISTEN_PORT))
         tcp_socket.listen()
-        print("TTS DevServer listening on port", LISTEN_PORT)
         tcp_socket.setblocking(False)
+
+        print("TTS DevServer listening on port", LISTEN_PORT)
+        error_output = "<font color='#009900'>Listening on " + str(LISTEN_PORT)
+        window.ui.console_output.append(error_output)
 
         atexit.register(Listen.terminate_socket, tcp_socket, selector)
         selector.register(tcp_socket, selectors.EVENT_READ, data=None)
@@ -145,5 +157,7 @@ if __name__ == "__main__":
         receive_thread.start()
     except socket.error as err:
         print("Socket error ", err)
+        error_output = "<font color='#FF0000'> SOCK ERR, please reboot."
+        window.ui.console_output.append(error_output)
 
     sys.exit(app.exec())

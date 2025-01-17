@@ -2,7 +2,7 @@ WORKPATH =
 DISTPATH =
 BINARY_NAME = tts_devserver_gui
 PYINSTALLER_FLAGS = -F
-TARGET = gui.py
+TARGET = src/__init__.py
 
 
 ifdef WINDOWS

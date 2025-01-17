@@ -1,5 +1,6 @@
 # folders and virtual environments
 test_scripts/
+dump_scripts/
 __pycache__/
 windows_env/
 linux_env/
