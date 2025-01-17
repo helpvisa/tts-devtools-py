@@ -4,6 +4,7 @@ dump_scripts/
 __pycache__/
 windows_env/
 linux_env/
+build_env/
 build/
 release/
 
