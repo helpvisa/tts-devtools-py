@@ -42,9 +42,13 @@ def generate_specfile_from_folder(folder, specfile_path):
                 obj_name = parse_filename[0]
             split_extension = obj_name.split(".")
             obj_name = split_extension[0]  # strip extension
+            if obj_name == "":
+                obj_name = split_extension[1]
             # we use length of list because some filenames (like vim swapfiles)
             # may have multiple extensions
             type = split_extension[len(split_extension) - 1]
+            if type != "lua" and type != "xml":
+                continue
             obj_name = obj_name.replace("_", " ")
             # does an entry already exist for this item?
             entry_does_not_exist = True
