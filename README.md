@@ -8,9 +8,8 @@ scripts which can interact with the TTS API in order to ease scripting.
 
 The various .py files included in this repository all interface with the TCP
 server spun up by TTS when you launch a new game, and some also listen to the
-requests made by TTS in order to synchronize scripts (this aspect is still in
-the TODO stages). They are completely IDE agnostic and can be used from
-within the terminal.
+requests made by TTS in order to synchronize scripts. They are completely IDE
+agnostic and can be used from within the terminal.
 
 Additionally included (and strongly recommended) is ```__init__.py```, which
 constitutes a GUI interface for all of the features exposed by the individual
@@ -26,7 +25,7 @@ buttons do, read below into the scripts category.
 
 One note of advice: if you've added any new objects into the scene since your
 last save, make sure you *create a new save or overwrite your current save in
-Tabletop Simulator first before pressing ```Save and Play```*. New objects
+Tabletop Simulator first before pressing* ```Save and Play```. New objects
 with scripts are not automatically persisted when the save is reloaded!
 
 ## Scripts
